@@ -1,3 +1,3 @@
 <?php
 
-print "hello world!";
+require_once '../core/bootstrap.php';

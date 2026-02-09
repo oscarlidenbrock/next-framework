@@ -1,0 +1,5 @@
+workspaces:
+  development:
+    host: "^localhost$"
+  production:
+    host: "^example\\.com$"
