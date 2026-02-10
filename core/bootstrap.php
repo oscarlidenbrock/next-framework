@@ -6,23 +6,27 @@ require_once '../core/functions.php';
 
 $config = Yaml::parseFile('../config/app.yml');
 $workspace = null;
+$workspaceConfig = null;
 
-/* Check workspaces */
+/* Check workspaces, config and other call will be checked in core() object */
 foreach ($config['workspaces'] as $workspaceName => $workspaceConfig) {
     /* check hosts */
     if (preg_match('/'.$workspaceConfig['host'].'/', $_SERVER['HTTP_HOST'])) {
         $workspace = $workspaceName;
-        $config = $workspaceConfig;
+        $workspaceConfig = $workspaceConfig;
         break;
     }
 }
 
-/* TODO: Change error to standar errors */
 if (!$workspace) {
+    /* TODO: Change error to standar errors */
     die("No workspace defined in config/app.yml");
 }
 
 /* Create global Core object */
-$core = new Core\Class\Core();
-
-pre($config, true);
+if ($workspaceConfig) {
+    $core = new Core\Class\Core($workspaceConfig);
+} else {
+    /* TODO: Change error to standar errors */
+    die("No config workspace defined in config/app.yml");
+}

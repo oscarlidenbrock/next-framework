@@ -11,3 +11,12 @@ function pre(&$obj, $die = false) {
     echo '</pre>';
     if ($die) die();
 }
+
+/**
+ * Link to main web object.
+ * @return mixed.
+ */
+function &core() {
+    global $core;
+    return $core;
+}

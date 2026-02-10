@@ -2,10 +2,13 @@
 
 namespace Core\Class;
 
+use PSpell\Config;
+
 class Core
 {
-    public function __construct()
+    private $config;
+    public function __construct($config)
     {
-
+        $this->config = $config;
     }
 }
