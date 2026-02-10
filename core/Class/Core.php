@@ -8,8 +8,7 @@ class Core
 {
     private $config;
     private $modules = [];
-    public function __construct($config)
-    {
+    public function __construct($config) {
         $this->config = $config;
 
         /* Parse modules */
@@ -23,10 +22,19 @@ class Core
                         'config' => $moduleConfig
                     ];
                 } else {
-                    /* TODO: Change error to standar errors */
-                    die('el modulo o su configuración no existen');
+                    $this->error('el modulo o su configuración no existen');
                 }
             }
         }
+    }
+
+    /**
+     * Core error handler
+     * @param $message
+     * @return void
+     */
+    public function error($message) {
+        /* TODO: make standar errors */
+        die($message);
     }
 }

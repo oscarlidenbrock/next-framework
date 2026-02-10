@@ -14,7 +14,7 @@ function pre(&$obj, $die = false) {
 
 /**
  * Link to main web object.
- * @return mixed.
+ * @return \Core\Class\Core
  */
 function &core() {
     global $core;
