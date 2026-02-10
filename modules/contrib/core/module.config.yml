@@ -1,0 +1,3 @@
+module:
+  name: 'Core'
+  description: 'Provides a basic site functionality.'
