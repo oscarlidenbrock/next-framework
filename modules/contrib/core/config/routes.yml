@@ -1,0 +1,7 @@
+test:
+  controller: test
+  action: default
+
+test/(\w+)/edit/([1-5]):
+  controller: index
+  action: edit

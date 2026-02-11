@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Core
 {
-    private $config;
+    public $config;
     private $modules = [];
 
     public $router;
@@ -18,8 +18,8 @@ class Core
             foreach ($this->config['modules'] as $moduleKey => $moduleFolder) {
                 $modulePath = dirname(__FILE__).'/../../modules/'.$moduleFolder;
 
-                if (file_exists($modulePath.'/module.config.yml')) {
-                    $moduleConfig = Yaml::parseFile($modulePath.'/module.config.yml');
+                if (file_exists($modulePath.'/config/module.yml')) {
+                    $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
                     $this->modules[$moduleKey] = [
                         'config' => $moduleConfig
                     ];
@@ -28,7 +28,13 @@ class Core
                 }
             }
         }
+    }
 
+    /**
+     * Init core function
+     * @return void
+     */
+    public function init() {
         /* Core class load */
         $this->router = new Router();
     }

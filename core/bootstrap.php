@@ -19,12 +19,17 @@ foreach ($config['workspaces'] as $workspaceName => $workspaceConfig) {
 }
 
 if (!$workspace) {
-    core()->error("No workspace defined in config/app.yml");
+    /* TODO: make standar errors without core() object */
+    die("ERROR: No workspace defined in config/app.yml");
 }
 
 /* Create global Core object */
 if ($workspaceConfig) {
     $core = new Core\Class\Core($workspaceConfig);
+
+    /* Initialize core() object */
+    $core->init();
 } else {
-    core()->error("No config workspace defined in config/app.yml");
+    /* TODO: make standar errors without core() object */
+    die("ERROR: No config workspace defined in config/app.yml");
 }
