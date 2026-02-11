@@ -1,0 +1,24 @@
+# Error Documents
+ErrorDocument 404 /index.php
+
+# Redirect always to index.php
+DirectoryIndex index.php index.html index.htm
+Options +FollowSymlinks
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+# Forbidden Folder List
+Options All -Indexes
+
+# Protect some file extensions
+<FilesMatch "\.(htaccess|ini|log|sh|tpl|info|yml)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Setup the Page Charset
+AddDefaultCharset utf-8

@@ -8,5 +8,5 @@ test/%var1/edit/%var2:
   action: edit
   method: [GET, POST]
   params:
-    var1: "\w+"
+    var1: "\\w+"
     var2: "[1-5]"

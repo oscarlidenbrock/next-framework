@@ -11,6 +11,7 @@ class Router
     public function __construct() {
         $modules = core()->config['modules'];
 
+        /* Parse modules routes */
         foreach ($modules as $module => $moduleFolder) {
             $modulePath = dirname(__FILE__).'/../../modules/'.$moduleFolder;
 
@@ -25,5 +26,9 @@ class Router
                 }
             }
         }
+
+        /* Get actual route */
+        $currentRoute = $_SERVER['REQUEST_URI'];
+        pre($currentRoute);
     }
 }
