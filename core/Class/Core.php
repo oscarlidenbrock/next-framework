@@ -21,6 +21,7 @@ class Core
                 if (file_exists($modulePath.'/config/module.yml')) {
                     $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
                     $this->modules[$moduleKey] = [
+                        'path' => $modulePath,
                         'config' => $moduleConfig
                     ];
                 } else {

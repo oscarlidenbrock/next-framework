@@ -11,9 +11,18 @@ class Router
     public function __construct() {
         $modules = core()->config['modules'];
 
-        foreach ($modules as $module) {
-            if (isset($module['routes'])) {
-                $this->routes = array_merge($this->routes, $module['routes']);
+        foreach ($modules as $module => $moduleFolder) {
+            $modulePath = dirname(__FILE__).'/../../modules/'.$moduleFolder;
+
+            if (file_exists($modulePath.'/config/routes.yml')) {
+                $routes = Yaml::parseFile($modulePath.'/config/routes.yml');
+
+                foreach ($routes as $regex => $route) {
+                    $this->routes[$regex] = [
+                        'module' => $module,
+                        'route' => $route,
+                    ];
+                }
             }
         }
     }
