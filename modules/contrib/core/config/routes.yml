@@ -1,7 +1,12 @@
 test:
   controller: test
   action: default
+  method: [GET]
 
-test/(\w+)/edit/([1-5]):
+test/%var1/edit/%var2:
   controller: index
   action: edit
+  method: [GET, POST]
+  params:
+    var1: "\w+"
+    var2: "[1-5]"
