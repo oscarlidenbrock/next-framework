@@ -8,6 +8,8 @@ class Core
 {
     private $config;
     private $modules = [];
+
+    public $router;
     public function __construct($config) {
         $this->config = $config;
 
@@ -26,6 +28,9 @@ class Core
                 }
             }
         }
+
+        /* Core class load */
+        $this->router = new Router();
     }
 
     /**
