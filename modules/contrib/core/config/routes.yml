@@ -3,7 +3,7 @@ test:
   action: default
   method: [GET]
 
-test/%var1/edit/%var2:
+test/{var1}/edit/{var2}:
   controller: index
   action: edit
   method: [GET, POST]

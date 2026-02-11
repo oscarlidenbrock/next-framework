@@ -27,12 +27,9 @@ class Router
             }
         }
 
-        /* Get actual route and method */
-        $currentRoute = $_SERVER['REQUEST_URI'];
-        $currentMethod = $_SERVER['REQUEST_METHOD'];
-
         /* Parse routes */
         foreach ($this->routes as $regex => $route) {
+            $currentMethod = $_SERVER['REQUEST_METHOD'];
             $methodValid = false;
 
             if (isset($route["route"]["method"])) {
@@ -51,7 +48,22 @@ class Router
                 if ($currentMethod == "GET") $methodValid = true;
             }
 
-            pre($methodValid);
+            /* If method is not valid, continue to next route */
+            if (!$methodValid) continue;
+
+            /* check routes regex with params */
+            $currentRoute = $_SERVER['REQUEST_URI'];
+            $routeParams = [];
+
+            if (isset($route['route']['params'])) {
+                foreach($route['route']['params'] as $param => $value) {
+                    $routeParams[] = $param;
+                    $regex = str_replace('{'.$param.'}', '('.$value.')', $regex);
+                }            }
+
+            /* TODO: check if route is valid and execute controller */
+            pre($routeParams);
+            pre($regex);
         }
     }
 }
