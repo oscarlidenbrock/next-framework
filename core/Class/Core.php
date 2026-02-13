@@ -10,6 +10,7 @@ class Core
     private $modules = [];
 
     public $router;
+    public $request;
     public function __construct($config) {
         $this->config = $config;
 
@@ -38,6 +39,7 @@ class Core
     public function init() {
         /* Core class load */
         $this->router = new Router();
+        $this->request = new Request();
     }
 
     /**
