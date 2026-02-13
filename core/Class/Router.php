@@ -7,6 +7,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Router
 {
+    private $controller;
     private $routes = [];
     public function __construct() {
         $modules = core()->config['modules'];
@@ -70,9 +71,24 @@ class Router
 
             /* Check if actual route matches */
             if (preg_match("/^$regex$/", $currentRoute, $matches)) {
-                print_r("SI");
-            } else {
-                print_r("NO");
+                /* replace variables with their values */
+                array_shift($matches);
+                $controllerValues = [];
+
+                foreach($routeParams as $key => $value) {
+                    $controllerValues[$value] = $matches[$key];
+                }
+
+                /* Set controller/action/params in object */
+                $this->controller = [
+                    'method' => $_SERVER['REQUEST_METHOD'],
+                    'controller' => $route['route']['controller'],
+                    'action' => $route['route']['action'],
+                    'parameters' => $controllerValues,
+                ];
+
+                /* TODO: Set params in request object */
+                /* TODO: Call controller/action */
             }
         }
     }
