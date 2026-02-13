@@ -54,16 +54,26 @@ class Router
             /* check routes regex with params */
             $currentRoute = $_SERVER['REQUEST_URI'];
             $routeParams = [];
+            $matches = null;
 
             if (isset($route['route']['params'])) {
                 foreach($route['route']['params'] as $param => $value) {
                     $routeParams[] = $param;
                     $regex = str_replace('{'.$param.'}', '('.$value.')', $regex);
-                }            }
+                }
+            }
 
-            /* TODO: check if route is valid and execute controller */
-            pre($routeParams);
-            pre($regex);
+            /* Add optional slash to regex */
+            $regex = '/'.$regex.'/?';
+            $regex = str_replace('\/', '/', $regex);
+            $regex = str_replace('/', '\/', $regex);
+
+            /* Check if actual route matches */
+            if (preg_match("/^$regex$/", $currentRoute, $matches)) {
+                print_r("SI");
+            } else {
+                print_r("NO");
+            }
         }
     }
 }
