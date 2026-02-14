@@ -38,8 +38,8 @@ class Core
      */
     public function init() {
         /* Core class load */
-        $this->router = new Router();
         $this->request = new Request();
+        $this->router = new Router();
     }
 
     /**

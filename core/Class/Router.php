@@ -53,7 +53,7 @@ class Router
             if (!$methodValid) continue;
 
             /* check routes regex with params */
-            $currentRoute = $_SERVER['REQUEST_URI'];
+            $currentRoute = explode('?', $_SERVER['REQUEST_URI'])[0];
             $routeParams = [];
             $matches = null;
 
@@ -87,7 +87,11 @@ class Router
                     'parameters' => $controllerValues,
                 ];
 
-                /* TODO: Set params in request object */
+                /* Set params in request object */
+                foreach ($controllerValues as $key => $value) {
+                    core()->request->set($key, $value);
+                }
+
                 /* TODO: Call controller/action */
             }
         }

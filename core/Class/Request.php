@@ -20,4 +20,12 @@ class Request
         unset($_FILES);
         unset($_REQUEST);
     }
+
+    public function set($key, $value) {
+        $this->request[$key] = $value;
+    }
+
+    public function get($key) {
+        return $this->request[$key];
+    }
 }
