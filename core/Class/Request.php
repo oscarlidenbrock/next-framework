@@ -6,19 +6,18 @@ use Symfony\Component\Yaml\Yaml;
 
 class Request
 {
-    private $get;
-    private $post;
+    private $request;
     private $files;
 
     public function __construct() {
         /* set global variables into request object */
-        $this->get = $_GET;
-        $this->post = $_POST;
+        $this->request = array_merge($_POST, $_GET);
         $this->files = $_FILES;
 
         /* unset global variables */
         unset($_GET);
         unset($_POST);
         unset($_FILES);
+        unset($_REQUEST);
     }
 }
