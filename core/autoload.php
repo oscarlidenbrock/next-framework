@@ -21,6 +21,19 @@ spl_autoload_register(function($classPath) {
     if (file_exists($classPath)) {
         require_once($classPath);
     } else {
-        error();
+        /* if first value is "Core", maybe can referer to core module */
+        if ($segments[0] == 'core') {
+            $segments[0] = 'modules/core';
+            $classPath = dirname(__FILE__).'/../'.implode('/', $segments);
+            $classPath .= '/'.$className.'.php';
+
+            if (file_exists($classPath)) {
+                require_once($classPath);
+            } else {
+                error();
+            }
+        } else {
+            error();
+        }
     }
 });
