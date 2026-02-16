@@ -51,4 +51,13 @@ class Core
         /* TODO: make standar errors */
         die($message);
     }
+
+    /**
+     * Return module config
+     * @param $moduleKey
+     * @return mixed
+     */
+    public function getModuleConfig($moduleKey) {
+        return $this->modules[$moduleKey];
+    }
 }

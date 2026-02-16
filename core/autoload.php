@@ -23,8 +23,11 @@ spl_autoload_register(function($classPath) {
     } else {
         /* if first value is "Core", maybe can referer to core module */
         if ($segments[0] == 'core') {
-            $segments[0] = 'modules/core';
-            $classPath = dirname(__FILE__).'/../'.implode('/', $segments);
+            /* get module path */
+            $modulePath = core()->getModuleConfig($segments[0])["path"].'/src';
+            unset($segments[0]);
+
+            $classPath = $modulePath.'/'.implode('/', $segments);
             $classPath .= '/'.$className.'.php';
 
             if (file_exists($classPath)) {

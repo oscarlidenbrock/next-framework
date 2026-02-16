@@ -93,7 +93,12 @@ class Router
                     core()->request->set($key, $value);
                 }
 
-                /* TODO: Call controller/action */
+                /* Call controller/action */
+                $moduleName = core()->getModuleConfig($route['module'])["config"]["module"]["name"];
+                $className = '\\'.$moduleName.'\\Controller\\'.$route['route']['controller'].'Controller';
+                $classObject = new $className();
+
+                pre($classObject);
             }
         }
     }

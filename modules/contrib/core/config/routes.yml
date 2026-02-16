@@ -1,13 +1,13 @@
 test.view:
   path: "test"
-  controller: test
-  action: default
+  controller: Test
+  action: Default
   method: [GET]
 
 test.edit:
   path: "test/{var1}/edit/{var2}"
-  controller: index
-  action: edit
+  controller: Test
+  action: Edit
   method: [GET, POST]
   params:
     var1: "\\w+"
