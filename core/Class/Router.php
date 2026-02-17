@@ -99,8 +99,9 @@ class Router
                 $classObject = new $className();
 
                 /* Call to action method */
-                pre($controllerValues);
                 $return = call_user_func_array([$classObject, $route['route']['action']], $controllerValues);
+
+                pre($return);
             }
         }
     }

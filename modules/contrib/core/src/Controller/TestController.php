@@ -2,7 +2,9 @@
 
 namespace Core\Controller;
 
-class TestController
+use Core\Class\Controller;
+
+class TestController extends Controller
 {
     public function default() {
         print "hello from DEFAULT action in TestController";
@@ -11,5 +13,7 @@ class TestController
     public function edit($var2, $var1) {
         $args = func_get_args();
         pre($args);
+
+        $this->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
     }
 }
