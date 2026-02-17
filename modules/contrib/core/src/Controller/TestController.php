@@ -11,9 +11,6 @@ class TestController extends Controller
     }
 
     public function edit($var2, $var1) {
-        $args = func_get_args();
-        pre($args);
-
         $this->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
     }
 }

@@ -1,5 +1,6 @@
 {
     "require": {
-        "symfony/yaml": "^7.4"
+        "symfony/yaml": "^7.4",
+        "twig/twig": "^3.23"
     }
 }
