@@ -11,6 +11,6 @@ class TestController extends Controller
     }
 
     public function edit($var2, $var1) {
-        $this->layout("")->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
+        $this->layout("html")->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
     }
 }

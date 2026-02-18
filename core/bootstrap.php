@@ -2,6 +2,7 @@
 
 use Symfony\Component\Yaml\Yaml;
 
+require_once '../core/constants.php';
 require_once '../core/functions.php';
 
 $config = Yaml::parseFile('../config/app.yml');
