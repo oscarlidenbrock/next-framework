@@ -20,6 +20,13 @@ class Controller
         /* TODO: Change theme variable */
         $theme = "next";
 
+        /* Reserver variables */
+        $reserved = ['page'];
+
+        foreach ($reserved as $key) {
+            $data[$key] = '{!! '.$key.' !!}';
+        }
+
         /* Get layout path */
         if (file_exists(THEMES_PATH.'/'.$theme.'/layout/'.$this->layout.'.twig')) {
             /* Render layout in custom theme */
@@ -50,7 +57,16 @@ class Controller
             core()->error('Template not found');
         }
 
-        pre($render);
+        /* Get final html to render */
+        $html = $render['html'];
+        unset($render['html']);
+
+        foreach ($render as $key => $value) {
+            $html = str_replace('{!! '.$key.' !!}', $value, $html);
+        }
+
+        /* print $html */
+        print($html);
 
         return $this;
     }
