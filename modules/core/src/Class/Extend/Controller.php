@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Class;
+namespace Core\Class\Extend;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

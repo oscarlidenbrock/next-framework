@@ -2,7 +2,8 @@
 
 namespace Core\Controller;
 
-class TestController extends \Core\Class\Controller
+use Core\Class\Extend\Controller;
+class TestController extends Controller
 {
     public function default() {
         print "hello from DEFAULT action in TestController";

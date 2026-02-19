@@ -96,7 +96,7 @@ class Router
                 /* Load controller */
                 $moduleName = core()->getModuleConfig($route['module'])["config"]["module"]["name"];
                 $className = '\\'.$moduleName.'\\Controller\\'.$route['route']['controller'].'Controller';
-                
+
                 $classObject = new $className();
 
                 /* Call to action method */
