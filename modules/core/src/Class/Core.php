@@ -16,17 +16,19 @@ class Core
 
         /* Parse modules */
         if (isset($this->config['modules'])) {
-            foreach ($this->config['modules'] as $moduleKey => $moduleFolder) {
-                $modulePath = dirname(__FILE__).'/../../modules/'.$moduleFolder;
+            foreach ($this->config['modules'] as $moduleKey => $moduleEnabled) {
+                if ($moduleEnabled) {
+                    $modulePath = MODULES_PATH.'/'.$moduleKey;
 
-                if (file_exists($modulePath.'/config/module.yml')) {
-                    $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
-                    $this->modules[$moduleKey] = [
-                        'path' => $modulePath,
-                        'config' => $moduleConfig
-                    ];
-                } else {
-                    $this->error('el modulo o su configuración no existen');
+                    if (file_exists($modulePath.'/config/module.yml')) {
+                        $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
+                        $this->modules[$moduleKey] = [
+                            'path' => $modulePath,
+                            'config' => $moduleConfig
+                        ];
+                    } else {
+                        $this->error('el modulo o su configuración no existen');
+                    }
                 }
             }
         }

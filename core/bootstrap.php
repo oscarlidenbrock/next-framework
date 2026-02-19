@@ -26,7 +26,7 @@ if (!$workspace) {
 
 /* Create global Core object */
 if ($workspaceConfig) {
-    $core = new Core\Class\Core($workspaceConfig);
+    $core = new \Core\Class\Core($workspaceConfig);
 
     /* Initialize core() object */
     $core->init();

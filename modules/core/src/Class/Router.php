@@ -13,15 +13,15 @@ class Router
         $modules = core()->config['modules'];
 
         /* Parse modules routes */
-        foreach ($modules as $module => $moduleFolder) {
-            $modulePath = dirname(__FILE__).'/../../modules/'.$moduleFolder;
+        foreach ($modules as $moduleKey => $moduleEnabled) {
+            $modulePath = MODULES_PATH.'/'.$moduleKey;
 
             if (file_exists($modulePath.'/config/routes.yml')) {
                 $routes = Yaml::parseFile($modulePath.'/config/routes.yml');
 
                 foreach ($routes as $routeKey => $route) {
                     $this->routes[$routeKey] = [
-                        'module' => $module,
+                        'module' => $moduleKey,
                         'route' => $route,
                     ];
                 }
@@ -96,6 +96,7 @@ class Router
                 /* Load controller */
                 $moduleName = core()->getModuleConfig($route['module'])["config"]["module"]["name"];
                 $className = '\\'.$moduleName.'\\Controller\\'.$route['route']['controller'].'Controller';
+                
                 $classObject = new $className();
 
                 /* Call to action method */

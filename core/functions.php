@@ -14,7 +14,7 @@ function pre(&$obj, $die = false) {
 
 /**
  * Link to main web object.
- * @return \Core\Class\Core
+ * @return \modules\core\src\Class\Core
  */
 function &core() {
     global $core;

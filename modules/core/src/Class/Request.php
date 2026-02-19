@@ -2,8 +2,6 @@
 
 namespace Core\Class;
 
-use Symfony\Component\Yaml\Yaml;
-
 class Request
 {
     private $request;
