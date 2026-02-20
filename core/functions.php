@@ -20,3 +20,18 @@ function &core() {
     global $core;
     return $core;
 }
+
+/**
+ * Check if exists multiple paths and return first found.
+ * @param $paths
+ * @return string|null
+ */
+function files_path_check($paths = []) {
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
+            return $path;
+        }
+    }
+
+    return null;
+}
