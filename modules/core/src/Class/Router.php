@@ -90,7 +90,7 @@ class Router
 
                 /* Set params in request object */
                 foreach ($controllerValues as $key => $value) {
-                    core()->request->set($key, $value);
+                    core()->service('request')->set($key, $value);
                 }
 
                 /* Load controller */

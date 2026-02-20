@@ -8,9 +8,9 @@ class Core
 {
     public $config;
     private $modules = [];
+    private $services = [];
 
     public $router;
-    public $request;
     public function __construct($config) {
         $this->config = $config;
 
@@ -29,6 +29,24 @@ class Core
                     } else {
                         $this->error('el modulo o su configuración no existen');
                     }
+
+                    /* Parse module services */
+                    if (file_exists($modulePath.'/config/services.yml')) {
+                        $moduleServices = Yaml::parseFile($modulePath.'/config/services.yml');
+
+                        if (count($moduleServices)) {
+                            foreach ($moduleServices as $serviceName => $service) {
+                                // $service['class'] = '\\'.$service['class'];
+                                $segments = explode('\\', $service['class']);
+                                unset($segments[0]);
+                                unset($segments[1]);
+                                $segments = implode('/', $segments);
+
+                                require_once(MODULES_PATH.'/'.$moduleKey.'/src/Service/'.$segments.'.php');
+                                $this->services[$serviceName] = new $service['class']();
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -40,7 +58,6 @@ class Core
      */
     public function init() {
         /* Core class load */
-        $this->request = new Request();
         $this->router = new Router();
     }
 
@@ -52,6 +69,19 @@ class Core
     public function error($message) {
         /* TODO: make standar errors */
         die($message);
+    }
+
+    /**
+     * Return service
+     * @param $serviceName
+     * @return mixed|null
+     */
+    public function service($serviceName) {
+        if (isset($this->services[$serviceName])) {
+            return $this->services[$serviceName];
+        } else {
+            return null;
+        }
     }
 
     /**
