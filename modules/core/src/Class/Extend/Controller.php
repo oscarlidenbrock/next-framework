@@ -2,6 +2,7 @@
 
 namespace Core\Class\Extend;
 
+use Twig\TwigFunction;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -15,7 +16,7 @@ class Controller
     }
     public function render($view, $data = []) {
         $html = '';
-        $data['render'] = [];
+        $render = [];
         $reflection = new \ReflectionClass(static::class);
 
         /* TODO: Change theme variable */
@@ -32,7 +33,7 @@ class Controller
 
         /* Render view */
         if (file_exists($viewPath.'/'.$view.'.twig')) {
-            $data['render']['page'] = $twig->render($view.'.twig', $data);
+            $render['page'] = $twig->render($view.'.twig', $data);
         } else {
             core()->error('Template not found');
         }
@@ -44,8 +45,13 @@ class Controller
             $loader = new FilesystemLoader(THEMES_PATH.'/default/layout');
         }
 
-        /* Render layout */
+        /* Initialize Twig for layout path  */
         $twig = new Environment($loader);
+
+        $twig->addFunction(new TwigFunction('render', function ($variable) use ($render) {;
+            return $render[$variable];
+        }, ['is_safe' => ['html']]));
+
         $html = $twig->render($this->layout.'.twig', $data);
 
         /* print $html */
