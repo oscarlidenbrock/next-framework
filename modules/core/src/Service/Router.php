@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Core\Class;
+namespace Core\Service;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -10,7 +10,8 @@ class Router
     private $controller;
     private $routes = [];
     public function __construct() {
-        $modules = core()->config['modules'];
+        // $modules = core()->config['modules'];
+        $modules = ['core' => true];
 
         /* Parse modules routes */
         foreach ($modules as $moduleKey => $moduleEnabled) {

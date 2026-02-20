@@ -1,2 +1,5 @@
 request:
   class: Core\Service\Request
+
+router:
+  class: Core\Service\Router

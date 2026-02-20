@@ -2,6 +2,7 @@
 
 namespace Core\Class;
 
+use Core\Service\Router;
 use Symfony\Component\Yaml\Yaml;
 
 class Core
@@ -29,6 +30,21 @@ class Core
                     } else {
                         $this->error('el modulo o su configuración no existen');
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Init core function
+     * @return void
+     */
+    public function init() {
+        /* Parse modules */
+        if (isset($this->config['modules'])) {
+            foreach ($this->config['modules'] as $moduleKey => $moduleEnabled) {
+                if ($moduleEnabled) {
+                    $modulePath = MODULES_PATH.'/'.$moduleKey;
 
                     /* Parse module services */
                     if (file_exists($modulePath.'/config/services.yml')) {
@@ -50,15 +66,6 @@ class Core
                 }
             }
         }
-    }
-
-    /**
-     * Init core function
-     * @return void
-     */
-    public function init() {
-        /* Core class load */
-        $this->router = new Router();
     }
 
     /**
