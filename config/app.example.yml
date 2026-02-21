@@ -1,9 +1,5 @@
 workspaces:
   development:
     host: "^localhost$"
-    modules:
-      core: true
   production:
     host: "^example\\.com$"
-    modules:
-      core: true

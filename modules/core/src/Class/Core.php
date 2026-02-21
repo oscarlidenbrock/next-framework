@@ -7,32 +7,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class Core
 {
-    public $config;
+    private $config;
     private $modules = [];
     private $services = [];
-
-    public $router;
     public function __construct($config) {
         $this->config = $config;
-
-        /* Parse modules */
-        if (isset($this->config['modules'])) {
-            foreach ($this->config['modules'] as $moduleKey => $moduleEnabled) {
-                if ($moduleEnabled) {
-                    $modulePath = MODULES_PATH.'/'.$moduleKey;
-
-                    if (file_exists($modulePath.'/config/module.yml')) {
-                        $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
-                        $this->modules[$moduleKey] = [
-                            'path' => $modulePath,
-                            'config' => $moduleConfig
-                        ];
-                    } else {
-                        $this->error('el modulo o su configuración no existen');
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -40,28 +19,53 @@ class Core
      * @return void
      */
     public function init() {
+        /* Set modules list */
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(MODULES_PATH, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getFilename() === 'module.php') {
+                $modulePath = dirname($file->getPathname());
+                $segments = explode('/', $modulePath);
+                $moduleKey = end($segments);
+
+                $moduleNamespace = $moduleKey;
+                $segments = explode('_', $moduleNamespace);
+                foreach ($segments as &$segment) {
+                    $segment = ucfirst($segment);
+                }
+                $moduleNamespace = implode('', $segments);
+
+                if (file_exists($modulePath.'/config/module.yml')) {
+                    $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
+                    $this->modules[$moduleKey] = array_merge([
+                        'path' => $modulePath,
+                        'namespace' => $moduleNamespace
+                    ], $moduleConfig);
+                } else {
+                    $this->error('el modulo o su configuración no existen');
+                }
+            }
+        }
+
         /* Parse modules */
-        if (isset($this->config['modules'])) {
-            foreach ($this->config['modules'] as $moduleKey => $moduleEnabled) {
-                if ($moduleEnabled) {
-                    $modulePath = MODULES_PATH.'/'.$moduleKey;
+        foreach ($this->modules as $moduleKey => $moduleConfig) {
+            $modulePath = MODULES_PATH.'/'.$moduleKey;
 
-                    /* Parse module services */
-                    if (file_exists($modulePath.'/config/services.yml')) {
-                        $moduleServices = Yaml::parseFile($modulePath.'/config/services.yml');
+            /* Parse module services */
+            if (file_exists($modulePath.'/config/services.yml')) {
+                $moduleServices = Yaml::parseFile($modulePath.'/config/services.yml');
 
-                        if (count($moduleServices)) {
-                            foreach ($moduleServices as $serviceName => $service) {
-                                // $service['class'] = '\\'.$service['class'];
-                                $segments = explode('\\', $service['class']);
-                                unset($segments[0]);
-                                unset($segments[1]);
-                                $segments = implode('/', $segments);
+                if (count($moduleServices)) {
+                    foreach ($moduleServices as $serviceName => $service) {
+                        $segments = explode('\\', $service['class']);
+                        unset($segments[0]);
+                        unset($segments[1]);
+                        $segments = implode('/', $segments);
 
-                                require_once(MODULES_PATH.'/'.$moduleKey.'/src/Service/'.$segments.'.php');
-                                $this->services[$serviceName] = new $service['class']();
-                            }
-                        }
+                        require_once(MODULES_PATH.'/'.$moduleKey.'/src/Service/'.$segments.'.php');
+                        $this->services[$serviceName] = new $service['class']();
                     }
                 }
             }
@@ -99,7 +103,7 @@ class Core
      * @param $moduleKey
      * @return mixed
      */
-    public function getModuleConfig($moduleKey) {
-        return $this->modules[$moduleKey];
+    public function getModules() {
+        return $this->modules;
     }
 }

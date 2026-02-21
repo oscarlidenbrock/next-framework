@@ -10,12 +10,11 @@ class Router
     private $controller;
     private $routes = [];
     public function init() {
-        // $modules = core()->config['modules'];
-        $modules = ['core' => true];
+        $modules = core()->getModules();
 
         /* Parse modules routes */
-        foreach ($modules as $moduleKey => $moduleEnabled) {
-            $modulePath = MODULES_PATH.'/'.$moduleKey;
+        foreach ($modules as $moduleKey => $moduleConfig) {
+            $modulePath = $moduleConfig['path'];
 
             if (file_exists($modulePath.'/config/routes.yml')) {
                 $routes = Yaml::parseFile($modulePath.'/config/routes.yml');
@@ -95,8 +94,8 @@ class Router
                 }
 
                 /* Load controller */
-                $moduleName = core()->getModuleConfig($route['module'])["config"]["module"]["name"];
-                $className = '\\'.$moduleName.'\\Controller\\'.$route['route']['controller'].'Controller';
+                $moduleNamespace = core()->getModules()[$route['module']]["namespace"];
+                $className = '\\'.$moduleNamespace.'\\Controller\\'.$route['route']['controller'].'Controller';
 
                 $classObject = new $className();
 
