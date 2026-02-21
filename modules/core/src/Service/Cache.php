@@ -13,12 +13,35 @@ class Cache
             $this->index = json_decode(file_get_contents(APP_PATH.'/var/cache/index.cache'), true);
         }
     }
-    public function get($folder, $key) {
 
+    /**
+     * Return the cache file if exist
+     * @param $folder
+     * @param $key
+     * @return null
+     */
+    public function get($folder, $key) {
+        if (isset($this->index[$folder][$key])) {
+            if ($this->index[$folder][$key]['e'] == 0 || $this->index[$folder][$key]['e'] > time()) {
+                if (file_exists(APP_PATH.'/var/cache/'.$folder.'/'.$this->index[$folder][$key]['f'])) {
+                    $data = file_get_contents(APP_PATH.'/var/cache/'.$folder.'/'.$this->index[$folder][$key]['f']);
+                    $data = json_decode($data, true);
+
+                    return $data;
+                }
+            }
+        }
 
         return null;
     }
 
+    /**
+     * Set a cache file
+     * @param $folder
+     * @param $key
+     * @param $value
+     * @param int $expires
+     */
     public function set($folder, $key, $value, $expires = 0) {
         /* get the cache folder/file if exist */
         $file = null;
