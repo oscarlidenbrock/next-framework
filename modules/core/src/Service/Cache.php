@@ -96,4 +96,19 @@ class Cache
         /* save the index */
         file_put_contents(APP_PATH.'/var/cache/index.cache', json_encode($this->index));
     }
+
+    /**
+     * Unset a cache file from index
+     * @param $folder
+     * @param $key
+     * @return void
+     */
+    public function unset($folder, $key) {
+        if (isset($this->index[$folder][$key])) {
+            unset($this->index[$folder][$key]);
+
+            /* save the index */
+            file_put_contents(APP_PATH.'/var/cache/index.cache', json_encode($this->index));
+        }
+    }
 }
