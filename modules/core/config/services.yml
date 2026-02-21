@@ -3,3 +3,6 @@ request:
 
 router:
   class: Core\Service\Router
+
+cache:
+  class: Core\Service\Cache

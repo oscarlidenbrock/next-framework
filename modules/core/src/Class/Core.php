@@ -66,6 +66,9 @@ class Core
                 }
             }
         }
+
+        /* Run Controller */
+        $this->service('router')->init();
     }
 
     /**

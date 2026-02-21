@@ -35,3 +35,15 @@ function files_path_check($paths = []) {
 
     return null;
 }
+
+/**
+ * Create a variable length and alphanumeric token.
+ * @param int $length
+ * @param string $chars
+ * @return string
+ */
+function token($length = 32, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890') {
+    $string = '';
+    for ($i = 1; $i <= $length; $i++) $string .= $chars[rand(0, (strlen($chars) - 1))];
+    return $string;
+}

@@ -9,7 +9,7 @@ class Router
 {
     private $controller;
     private $routes = [];
-    public function __construct() {
+    public function init() {
         // $modules = core()->config['modules'];
         $modules = ['core' => true];
 
