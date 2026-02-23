@@ -1,3 +1,4 @@
 description: 'Provides a basic site functionality.'
 version: 0.1.1
+weight: 0
 config:

@@ -38,11 +38,15 @@ class Core
                 $moduleNamespace = implode('', $segments);
 
                 if (file_exists($modulePath.'/config/module.yml')) {
-                    $moduleConfig = Yaml::parseFile($modulePath.'/config/module.yml');
-                    $this->modules[$moduleKey] = array_merge([
+                    $moduleConfig = array_merge([
                         'path' => $modulePath,
-                        'namespace' => $moduleNamespace
-                    ], $moduleConfig);
+                    ], Yaml::parseFile($modulePath.'/config/module.yml'));
+
+                    require_once($modulePath.'/Module.php');
+                    $moduleClass = $moduleNamespace.'\\Module';
+
+                    $this->modules[$moduleKey] = new $moduleClass();
+                    $this->modules[$moduleKey]->meta = $moduleConfig;
                 } else {
                     $this->error('el modulo o su configuración no existen');
                 }

@@ -13,8 +13,8 @@ class Router
         $modules = core()->getModules();
 
         /* Parse modules routes */
-        foreach ($modules as $moduleKey => $moduleConfig) {
-            $modulePath = $moduleConfig['path'];
+        foreach ($modules as $moduleKey => $module) {
+            $modulePath = $module->meta['path'];
 
             if (file_exists($modulePath.'/config/routes.yml')) {
                 $routes = Yaml::parseFile($modulePath.'/config/routes.yml');
