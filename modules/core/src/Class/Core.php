@@ -75,6 +75,9 @@ class Core
             }
         }
 
+        /* Run hook_init() for each module */
+        $this->hook('init');
+
         /* Run Controller */
         $this->service('router')->init();
     }
@@ -109,5 +112,15 @@ class Core
      */
     public function getModules() {
         return $this->modules;
+    }
+
+    public function hook($hookName, $params = []) {
+        foreach ($this->modules as $module) {
+            $hookName = 'hook_'.$hookName;
+
+            if (method_exists($module, $hookName)) {
+                $module->$hookName($params);
+            }
+        }
     }
 }
