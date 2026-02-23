@@ -44,6 +44,8 @@ class Core
 
                     require_once($modulePath.'/Module.php');
                     $moduleClass = $moduleNamespace.'\\Module';
+                    $moduleWeight = isset($moduleConfig['weight']) ? $moduleConfig['weight'] *1 : 100;
+                    $moduleConfig['weight'] = $moduleWeight;
 
                     $this->modules[$moduleKey] = new $moduleClass();
                     $this->modules[$moduleKey]->meta = $moduleConfig;
@@ -52,6 +54,12 @@ class Core
                 }
             }
         }
+
+        /* Order modules by weight */
+        /* TODO: check if order by weight works */
+        uasort($this->modules, function ($a, $b) {
+            return $a->meta['weight'] <=> $b->meta['weight'];
+        });
 
         /* Parse modules */
         foreach ($this->modules as $moduleKey => $moduleConfig) {
