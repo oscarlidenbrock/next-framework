@@ -6,3 +6,6 @@ router:
 
 cache:
   class: Core\Service\Cache
+
+watchdog:
+  class: Core\Service\Watchdog
