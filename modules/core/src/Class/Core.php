@@ -40,6 +40,7 @@ class Core
                 if (file_exists($modulePath.'/config/module.yml')) {
                     $moduleConfig = array_merge([
                         'path' => $modulePath,
+                        'namespace' => $moduleNamespace,
                     ], Yaml::parseFile($modulePath.'/config/module.yml'));
 
                     require_once($modulePath.'/Module.php');

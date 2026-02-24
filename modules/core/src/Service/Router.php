@@ -94,7 +94,7 @@ class Router
                 }
 
                 /* Load controller */
-                $moduleNamespace = core()->getModules()[$route['module']]["namespace"];
+                $moduleNamespace = core()->getModules()[$route['module']]->meta['namespace'];
                 $className = '\\'.$moduleNamespace.'\\Controller\\'.$route['route']['controller'].'Controller';
 
                 $classObject = new $className();

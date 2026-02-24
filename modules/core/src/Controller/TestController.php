@@ -10,6 +10,7 @@ class TestController extends Controller
     }
 
     public function edit($var2, $var1) {
+        core()->service('watchdog')->add('error', 123, 'test error message');
         $this->layout("html")->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
     }
 }
