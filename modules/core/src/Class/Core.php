@@ -98,7 +98,8 @@ class Core
      */
     public function error($message) {
         /* TODO: make standar errors */
-        die($message);
+        print_r('ERROR: '.$message);
+        $this->service('watchdog')->add('error', 0, $message);
     }
 
     /**
