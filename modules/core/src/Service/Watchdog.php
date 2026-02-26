@@ -17,14 +17,15 @@ class Watchdog
 
         /* if object is set, add object info */
         if ($object) {
-            $text .= ' (file: object: '.$timestamp.'.dump)';
+            $token = token(16);
+            $text .= ' (file: object: '.$timestamp.'_'.$token.'.dump)';
             if (is_array($object)) $object = json_encode($object);
             if (!is_dir($path.'/watchdog')) { mkdir($path.'/watchdog', 0755, true); }
-            file_put_contents($path.'/watchdog/'.$timestamp.'.dump', print_r($object, true));
+            file_put_contents($path.'/watchdog/'.$timestamp.'_'.$token.'.dump', print_r($object, true));
         }
 
         /* add watchdog line to file */
-        file_put_contents($file, $text, FILE_APPEND);
+        file_put_contents($file, $text.PHP_EOL, FILE_APPEND);
 
         if ($die) die();
     }

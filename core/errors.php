@@ -30,6 +30,7 @@ class ErrorHandler
      */
     public static function handleException($exception)
     {
+        core()->service('watchdog')->add('error', 0, $exception->getMessage(), $exception);
         error_log($exception);
         echo "<pre>"; print_r($exception); echo "</pre>";
         http_response_code(500);
