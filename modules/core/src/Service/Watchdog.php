@@ -4,9 +4,9 @@ namespace Core\Service;
 
 class Watchdog
 {
-    public function add($type, $error, $errorMessage, $object = null, $die = false) {
+    public function error($type, $error, $errorMessage, $object = null, $die = false) {
         /* set path and file */
-        $file = APP_PATH.'/var/log/watchdog.log';
+        $file = APP_PATH.'/var/log/errors.log';
         $path = dirname($file);
         if (!is_dir($path)) { mkdir($path, 0755, true); }
 
@@ -18,10 +18,10 @@ class Watchdog
         /* if object is set, add object info */
         if ($object) {
             $token = token(16);
-            $text .= ' (file: object: '.$timestamp.'_'.$token.'.dump)';
+            $text .= ' (dump: '.$timestamp.'_'.$token.'.dump)';
             if (is_array($object)) $object = json_encode($object);
-            if (!is_dir($path.'/watchdog')) { mkdir($path.'/watchdog', 0755, true); }
-            file_put_contents($path.'/watchdog/'.$timestamp.'_'.$token.'.dump', print_r($object, true));
+            if (!is_dir($path.'/errors')) { mkdir($path.'/errors', 0755, true); }
+            file_put_contents($path.'/errors/'.$timestamp.'_'.$token.'.dump', print_r($object, true));
         }
 
         /* add watchdog line to file */
