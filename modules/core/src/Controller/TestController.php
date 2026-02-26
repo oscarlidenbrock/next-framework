@@ -10,7 +10,7 @@ class TestController extends Controller
     }
 
     public function edit($var2, $var1) {
-        iijiojio();
+        odds();
         $this->layout("html")->render('test/edit', ['var1' => $var1, 'var2' => $var2]);
     }
 }
